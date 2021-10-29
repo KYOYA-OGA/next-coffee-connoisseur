@@ -34,23 +34,29 @@ export default function Home(props) {
   const { coffeeStores, latLong } = state;
 
   // console.log({ latLong, locationErrorMsg });
+  async function fetchCoffeeStores() {
+    try {
+      const response = await fetch(
+        `/api/getCoffeeStoresByLocation?latLong=${latLong}&limit=6`
+      );
+      const coffeeStores = await response.json();
 
-  useEffect(async () => {
+      // setCoffeeStores(fetchedCoffeeStores);
+      dispatch({
+        type: ACTION_TYPES.SET_COFFEE_STORES,
+        payload: {
+          coffeeStores,
+        },
+      });
+      setCoffeeStoresError('');
+    } catch (err) {
+      console.log({ err });
+      setCoffeeStoresError(err.message);
+    }
+  }
+  useEffect(() => {
     if (latLong) {
-      try {
-        const fetchedCoffeeStores = await fetchCoffeeStores(latLong, 6);
-
-        // setCoffeeStores(fetchedCoffeeStores);
-        dispatch({
-          type: ACTION_TYPES.SET_COFFEE_STORES,
-          payload: {
-            coffeeStores: fetchedCoffeeStores,
-          },
-        });
-      } catch (err) {
-        console.log({ err });
-        setCoffeeStoresError(err.message);
-      }
+      fetchCoffeeStores();
     }
   }, [latLong]);
 
