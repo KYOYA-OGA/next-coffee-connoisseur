@@ -37,12 +37,15 @@ export async function getStaticPaths() {
   });
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
 const CoffeeStore = (initialProps) => {
   const router = useRouter();
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   const id = router.query.id;
 
@@ -131,10 +134,6 @@ const CoffeeStore = (initialProps) => {
       console.error('Error upvoting coffee store', err);
     }
   };
-
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
 
   if (error) {
     return <div>Error fetching data</div>;
