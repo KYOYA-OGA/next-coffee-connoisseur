@@ -25,15 +25,12 @@ export default function Home(props) {
     handleTrackLocation();
   };
 
-  // const [coffeeStores, setCoffeeStores] = useState('');
-
   const [coffeeStoresError, setCoffeeStoresError] = useState(null);
 
   const { dispatch, state } = useContext(StoreContext);
 
   const { coffeeStores, latLong } = state;
 
-  // console.log({ latLong, locationErrorMsg });
   async function fetchCoffeeStores() {
     try {
       const response = await fetch(
@@ -111,7 +108,7 @@ export default function Home(props) {
         {props.coffeeStores.length > 0 && (
           <>
             <div className={styles.sectionWrapper}>
-              <h2 className={styles.heading2}>Toronto stores</h2>
+              <h2 className={styles.heading2}>Chiang Rai stores</h2>
               <div className={styles.cardLayout}>
                 {props.coffeeStores.map((coffeeStore) => {
                   return (
